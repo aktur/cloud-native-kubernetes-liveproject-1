@@ -1,9 +1,5 @@
 class ProbesController {
 
-    // constructor(paymentRepository) {
-    //     this.paymentRepository = paymentRepository
-    // }
-
     async handleLiveness(req, res) {
         res.send({"ok": true})        
     }
