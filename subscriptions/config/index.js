@@ -1,12 +1,16 @@
 let determineConfigDir = () => {
-    // TODO: Fill in code here to determine the configuration directory.
-    // This is likely similar to your solution for milestone 1.
+
+    if(process.env.CONFIG_DIR === undefined || process.env.CONFIG_DIR == null) { 
+        return '.'
+    }
+
+    return process.env.CONFIG_DIR
 }
 
 let determineConfigFile =() => {
 
-    // TODO: Fill in code here to determine the configuration file.
-    // This is likely similar to your solution for milestone 1.
+    const configDir = determineConfigDir()
+    return `${configDir}/config.json`
 }
 
 module.exports = function() {

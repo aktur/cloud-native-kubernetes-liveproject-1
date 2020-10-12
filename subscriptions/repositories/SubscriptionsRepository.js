@@ -1,20 +1,50 @@
 const domain = require('../domain/Subscription')
 
+let subscriptionKey = "subscription"
+
 class SubscriptionsRepository {
     constructor(client) {
         this.client = client
     }
 
     async addOrReplaceSubscription(subscription) {
-        // TODO: Implementation       
+
+        let len = await this.client.hlen(subscriptionKey)
+        
+        if(len > 0) {
+            // If there is already an existing payment method, we're
+            // going to replace that. Remove the old one first just
+            // to make sure.
+            await this.removeSubscription()
+        }
+
+        const data = this.transformToRepositoryFormat(subscription)
+        await this.client.hmset(subscriptionKey, data)
     }
 
     async getSubscription() {
-        // TODO: Implementation       
+        let len = await this.client.hlen(subscriptionKey)
+        
+        if(len <= 0) {
+            return null
+        }
+
+        const data = await this.client.hgetall(subscriptionKey)
+        return this.transformToDomainFormat(data)
     }
 
     async removeSubscription() {
-        // TODO: Implementation       
+        let len = await this.client.hlen(subscriptionKey)
+        
+        if(len <= 0) {
+            // If there is already an existing payment method, we're
+            // going to replace that. Remove the old one first just
+            // to make sure.
+            return
+        }
+
+        let fields = await this.client.hkeys(subscriptionKey)
+        return await this.client.hdel(subscriptionKey, fields)
     }
 
     // This method will transform a domain representation to its

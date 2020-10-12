@@ -8,6 +8,7 @@ resources:
 - ns.yaml
 - redis.yaml
 - payment.yaml
+- subscription.yaml
 
 secretGenerator:
 - name: redis-conf
