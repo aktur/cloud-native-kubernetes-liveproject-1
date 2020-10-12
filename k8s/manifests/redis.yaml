@@ -16,6 +16,10 @@ spec:
       labels:
         app: redis
     spec:
+      securityContext:
+        runAsUser: 999
+        runAsGroup: 1000
+        fsGroup: 1000
       containers:
       - name: redis
         image: redis:6.0.4-alpine
@@ -23,6 +27,11 @@ spec:
           - "/usr/local/etc/redis/redis.conf"
           - "--appendonly"
           - "yes"
+        securityContext:
+          runAsUser: 999
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
         ports:
         - containerPort: 6379
         resources:
@@ -37,6 +46,7 @@ spec:
           mountPath: "/usr/local/etc/redis"
         - name: redis-storage
           mountPath: "/data"
+      serviceAccountName: sns-sa
       volumes:
       - name: conf
         secret:

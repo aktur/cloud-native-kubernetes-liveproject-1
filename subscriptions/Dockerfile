@@ -15,7 +15,8 @@ COPY docker-entrypoint.sh /opt/sns/app/
 WORKDIR /opt/sns/app
 
 RUN chmod 700 docker-entrypoint.sh && \
-    npm install
+    npm install && \
+    chown -R 1000:1000 /opt/sns/
 
 EXPOSE 3001
 

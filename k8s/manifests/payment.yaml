@@ -28,9 +28,18 @@ spec:
       labels:
         app: payment
     spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       containers:
       - name: payment
         image: sns-payment:latest
+        securityContext:
+          runAsUser: 1000
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
         ports:
         - containerPort: 3000
         env:
@@ -66,6 +75,7 @@ spec:
         volumeMounts:
         - name: payment-config
           mountPath: "/opt/sns/config"
+      serviceAccountName: sns-sa
       volumes:
       - name: payment-config
         configMap:
