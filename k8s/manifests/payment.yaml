@@ -7,7 +7,7 @@ data:
   config.json: |
     {
       "server_port": 3000,
-      "redis_host": "redis",
+      "redis_host": "sns-redis-master",
       "redis_port": 6379
     }
 ---
@@ -88,9 +88,11 @@ metadata:
   namespace: sns
   labels:
     app: payment
+    layer: api
 spec:
   ports:
   - port: 3000
     targetPort: 3000
+    name: web
   selector:
     app: payment

@@ -11,6 +11,7 @@ resources:
 - payment.yaml
 - subscription.yaml
 - ingress.yaml
+- monitor.yaml
 
 
 secretGenerator:

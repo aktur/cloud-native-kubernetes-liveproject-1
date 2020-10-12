@@ -1,0 +1,20 @@
+# Service monitor here is commented out because it doesn't work pre-configured
+# with the configuration required by the prometheus operator helm chart. I've 
+# added my own service monitor definition for this redis instance.
+
+global:
+  # This storage class is specific to the cluster. It's using for setting up the persistent
+  # volumes claims as was done in an ealier milestone for redis.
+  storageClass: standard
+metrics:
+  enabled: true
+  # serviceMonitor:
+  #   enabled: true
+  #   namespace: monitoring
+cluster:
+  enabled: false
+# This is the secret we've been using all along for Redis. 
+# The chart allows us to keep using that.
+existingSecret: redis-conf 
+existingSecretPasswordKey: redis_password
+
